@@ -1,0 +1,11 @@
+node_modules
+dist
+.env
+.env.local
+uploads
+coverage
+*.log
+client/.vite
+server/prisma/dev.db
+work/
+outputs/

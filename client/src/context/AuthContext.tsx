@@ -1,0 +1,7 @@
+import { createContext, useContext, useEffect, useState } from 'react';
+import { api, request, setAccessToken } from '../api/client';
+import type { User } from '../types';
+type Session = {accessToken:string;user:User}; type AuthContextValue = {user:User|null;loading:boolean;login:(email:string,password:string)=>Promise<User>;register:(data:Record<string,string>)=>Promise<User>;logout:()=>Promise<void>;refresh:()=>Promise<void>};
+const AuthContext = createContext<AuthContextValue | null>(null);
+export function AuthProvider({children}:{children:React.ReactNode}) { const [user,setUser] = useState<User|null>(null), [loading,setLoading] = useState(true); const apply = (session:Session) => { setAccessToken(session.accessToken);setUser(session.user);return session.user; }; const refresh = async () => { try { apply(await request<Session>('post','/auth/refresh')); } catch { setAccessToken(null);setUser(null); } }; useEffect(()=>{ refresh().finally(()=>setLoading(false)); },[]); const value = {user,loading,refresh,login:async(email:string,password:string)=>apply(await request<Session>('post','/auth/login',{email,password})),register:async(data:Record<string,string>)=>apply(await request<Session>('post','/auth/register',data)),logout:async()=>{try{await request('post','/auth/logout');}finally{setAccessToken(null);setUser(null);}}}; return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>; }
+export const useAuth=()=>{const v=useContext(AuthContext);if(!v)throw new Error('useAuth requires AuthProvider');return v;};

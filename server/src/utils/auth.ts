@@ -1,0 +1,11 @@
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs';
+import type { Role } from '@prisma/client';
+import { env } from '../config/env.js';
+export type TokenPayload = { id: string; role: Role; email: string };
+export const signAccessToken = (payload: TokenPayload) => jwt.sign(payload, env.JWT_SECRET, { expiresIn: '15m' });
+export const signRefreshToken = (payload: TokenPayload) => jwt.sign(payload, env.JWT_REFRESH_SECRET, { expiresIn: '7d' });
+export const verifyAccessToken = (token: string) => jwt.verify(token, env.JWT_SECRET) as TokenPayload;
+export const verifyRefreshToken = (token: string) => jwt.verify(token, env.JWT_REFRESH_SECRET) as TokenPayload;
+export const hashToken = (token: string) => bcrypt.hash(token, 10);
+export const tokensMatch = (token: string, hash?: string | null) => !!hash && bcrypt.compare(token, hash);
