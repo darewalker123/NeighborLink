@@ -1,0 +1,9 @@
+NEIGHBORLINK — DEMONSTRATION DOCUMENT
+
+Provider: Ravi Kumar (fictional seed account)
+Purpose: Demonstrate the administrator's document review screen.
+
+This is a sample only. It is not a government ID, a real identity document,
+or evidence of anyone's identity. Approve or reject it only for the college demo.
+
+Real local test uploads can be PDF, PNG, JPG or WEBP files under 5 MB.

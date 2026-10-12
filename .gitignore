@@ -1,4 +1,6 @@
 node_modules
+.npm-cache
+.local/
 dist
 .env
 .env.local
@@ -6,6 +8,7 @@ uploads
 coverage
 *.log
 client/.vite
-server/prisma/dev.db
+database/mongo-data/
+database/*.sql
 work/
 outputs/

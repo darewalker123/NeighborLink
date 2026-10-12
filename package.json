@@ -5,11 +5,13 @@
   "workspaces": ["client", "server"],
   "scripts": {
     "dev": "concurrently \"npm run dev -w server\" \"npm run dev -w client\"",
-    "build": "npm run db:generate && npm run build -w server && npm run build -w client",
+    "build": "npm run build -w server && npm run build -w client",
     "test": "npm run test -w server && npm run test -w client",
-    "db:generate": "npm run prisma:generate -w server",
-    "db:migrate": "npm run prisma:migrate -w server",
-    "db:seed": "npm run prisma:seed -w server"
+    "test:workflows": "npm run test:workflows -w server",
+    "start": "concurrently \"npm run start -w server\" \"npm run preview -w client -- --port 5173 --strictPort\"",
+    "db:setup": "npm run db:setup -w server",
+    "db:reset": "npm run db:setup -w server -- --reset",
+    "db:seed": "npm run db:seed -w server"
   },
   "devDependencies": { "concurrently": "^9.1.2" }
 }
